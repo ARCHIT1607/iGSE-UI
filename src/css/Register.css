@@ -1,0 +1,13 @@
+#RegisterContainer{
+    display: flex;
+    align-items:center;
+    height:100vh;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    #RegisterContainer{
+        padding-left: 2.5rem;
+        font-size: 0.7rem;
+    }
+}

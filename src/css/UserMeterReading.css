@@ -1,0 +1,17 @@
+#userMeterReadingContainer {
+  width: 500px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  #userMeterReadingContainer {
+    width: 700px !important;
+  }
+
+  #floatingInputGrid {
+    padding-right: 2rem !important;
+    width: 100% !important;
+  }
+  label{
+    font-size: 1rem;
+  }
+}

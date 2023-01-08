@@ -1,0 +1,12 @@
+#loginContainer{
+    display: flex;
+    align-items:center;
+    height:100vh;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .form-floating>.form-control{
+        width: 20rem!important;
+    }
+}

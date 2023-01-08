@@ -1,0 +1,35 @@
+
+.card{
+    height: 10rem!important;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+@media only screen and (max-width: 600px) {
+  #userDashboardContainer {
+    font-size: 0.5rem;
+  }
+  .card{
+    height: 10rem!important;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+  .card-title{
+    font-size: 1rem!important;
+  }
+
+  .card-text{
+    font-size: 0.7rem!important;;
+  }
+
+  .pt-3{
+    padding-top: 0.2rem!important;
+  }
+
+  #topUpCard{
+    height: 5rem!important;
+  }
+}
