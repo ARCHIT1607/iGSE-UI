@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -6,11 +6,16 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
+import InputGroup from "react-bootstrap/InputGroup";
+import QrScanner from "qr-scanner";
 import "../css/Register.css";
+
 function Register() {
   const [validated, setValidated] = useState(false);
+  const [file, setFile] = useState(null);
   const navigate = useNavigate();
-
+  const [evc, setEVC] = useState("");
+  const fileRef = useRef();
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -20,6 +25,42 @@ function Register() {
       navigate("userDashboard");
     }
     setValidated(true);
+  };
+
+  const handleTopUp = async () => {
+    //Prevent page reload
+    // await Axios.post("http://localhost:8080/customer/topUp?EVC=" + evc, null, {
+    //   headers: {
+    //     Authorization: "Basic " + cred,
+    //   },
+    // })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     console.log("Top up successfully");
+    //   })
+    //   .catch((error) => {
+    //     if (error.response) {
+    //       console.log("inside error");
+    //       console.log(error.response.data);
+    //       console.log(error.response.status);
+    //       console.log(error.response.headers);
+    //       alert(error.response.data);
+    //     } else {
+    //       console.log("Error", error.message);
+    //     }
+    //   });
+    console.log("top up");
+  };
+
+  const handleClick = () => {
+    fileRef.current.click();
+  };
+
+  const handleChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    const result = await QrScanner.scanImage(file);
+    setEVC(result);
   };
 
   return (
@@ -38,7 +79,7 @@ function Register() {
                   type="email"
                   required
                   placeholder="name@example.com"
-                  style={{ width: "30rem"}}
+                  style={{ width: "30rem" }}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
@@ -65,7 +106,7 @@ function Register() {
           {/* Second Row */}
           <Row className="mb-3">
             <Col xs="auto">
-            <FloatingLabel
+              <FloatingLabel
                 controlId="floatingInputGrid"
                 label="Flat No / Bld name"
               >
@@ -81,15 +122,8 @@ function Register() {
               </FloatingLabel>
             </Col>
             <Col xs="auto">
-              <FloatingLabel
-                controlId="floatingInputGrid"
-                label="Street Name"
-              >
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Street Name"
-                />
+              <FloatingLabel controlId="floatingInputGrid" label="Street Name">
+                <Form.Control required type="text" placeholder="Street Name" />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
                   invalid input
@@ -97,15 +131,8 @@ function Register() {
               </FloatingLabel>
             </Col>
             <Col xs="auto">
-              <FloatingLabel
-                controlId="floatingInputGrid"
-                label="City"
-              >
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="City"
-                />
+              <FloatingLabel controlId="floatingInputGrid" label="City">
+                <Form.Control required type="text" placeholder="City" />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
                   invalid input
@@ -113,15 +140,8 @@ function Register() {
               </FloatingLabel>
             </Col>
             <Col xs="auto">
-              <FloatingLabel
-                controlId="floatingInputGrid"
-                label="Postcode"
-              >
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Postcode"
-                />
+              <FloatingLabel controlId="floatingInputGrid" label="Postcode">
+                <Form.Control required type="text" placeholder="Postcode" />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
                   invalid Postcode
@@ -168,7 +188,7 @@ function Register() {
               </FloatingLabel>
             </Col>
             <Col md>
-              <FloatingLabel
+              {/* <FloatingLabel
                 controlId="floatingInputGrid"
                 label="Energy voucher code (EVC)"
               >
@@ -182,7 +202,33 @@ function Register() {
                 <Form.Control.Feedback type="invalid">
                   invalid number
                 </Form.Control.Feedback>
-              </FloatingLabel>
+              </FloatingLabel> */}
+              <InputGroup>
+                <Form.Control
+                  placeholder="Energy voucher code (EVC)"
+                  aria-label="Energy voucher code (EVC)"
+                  style={{ height: "3.6rem" }}
+                  value={evc}
+                />
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    handleTopUp();
+                  }}
+                >
+                  Button
+                </Button>
+                <Button variant="primary" onClick={handleClick}>
+                  Upload Qr Code
+                </Button>
+                <input
+                            type="file"
+                            ref={fileRef}
+                            onChange={handleChange}
+                            accept=".png, .jpg, .jpeg"
+                            style={{ display: "none" }}
+                          />
+              </InputGroup>
             </Col>
           </Row>
           <Button variant="primary" type="submit">
