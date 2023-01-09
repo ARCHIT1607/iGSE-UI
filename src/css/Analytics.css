@@ -1,0 +1,11 @@
+@media only screen and (max-width: 600px) {
+    
+    #analyticContainer{
+        height: 300px;
+    }
+
+    #bar1{
+        height: 20rem!important;
+        width: 100%!important;
+    }
+}

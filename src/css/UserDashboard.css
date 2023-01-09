@@ -1,5 +1,5 @@
 
-.card{
+#userDashboardCard{
     height: 10rem!important;
     display: flex;
     justify-content: center;
@@ -10,18 +10,18 @@
   #userDashboardContainer {
     font-size: 0.5rem;
   }
-  .card{
+  #userDashboardCard{
     height: 10rem!important;
     display: flex;
     justify-content: center;
     text-align: center;
     align-items: center;
   }
-  .card-title{
+  #userCardTitle{
     font-size: 1rem!important;
   }
 
-  .card-text{
+  #userCardText{
     font-size: 0.7rem!important;;
   }
 

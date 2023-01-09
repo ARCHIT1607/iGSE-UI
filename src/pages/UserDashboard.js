@@ -30,10 +30,10 @@ function UserDashboard() {
         <Row>
           <Col>
             <Button variant="light" onClick={openMeterReadingDialogue}>
-              <Card bg="primary" text="light" style={{ height: "15rem" }}>
+              <Card id="userDashboardCard" bg="primary" text="light" style={{ height: "15rem" }}>
                 <Card.Body>
-                  <Card.Title>Submit New Meter Reading</Card.Title>
-                  <Card.Text className="pt-3">
+                  <Card.Title id="userCardTitle">Submit New Meter Reading</Card.Title>
+                  <Card.Text id="userCardText" className="pt-3">
                     A customer can submit new meter readings
                   </Card.Text>
                 </Card.Body>

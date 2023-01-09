@@ -8,6 +8,9 @@ import AdminDashboard from './pages/AdminDashboard';
 import UserMeterReading from './pages/UserMeterReading';
 import TopUp from './pages/TopUp';
 import UserReading from './pages/UserReading';
+import MeterPrice from './pages/MeterPrice';
+import MeterReadings from './pages/MeterReadings';
+import Analytics from './pages/Analytics';
 function App() {
   return (
     <div className="App">
@@ -19,7 +22,12 @@ function App() {
           <Route exact path="userReading" element={<UserReading />} />
           <Route exact path="topUp" element={<TopUp />} />
           </Route>
-          <Route exact path="/adminDashboard" element={<AdminDashboard />} />
+          <Route exact path="/adminDashboard" element={<AdminDashboard />} >
+          <Route exact path="meterPrice" element={<MeterPrice />} />
+          <Route exact path="meterReadings" element={<MeterReadings />} />
+          <Route exact path="analytics" element={<Analytics />} />
+          </Route>
+          <Route exact path="/analytics" element={<Analytics />} />
         </Routes>
     </div>
   );
