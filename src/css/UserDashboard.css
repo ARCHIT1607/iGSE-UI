@@ -11,7 +11,7 @@
     font-size: 0.5rem;
   }
   #userDashboardCard{
-    height: 15rem!important;
+    height: 10rem!important;
     display: flex;
     justify-content: center;
     text-align: center;
@@ -22,7 +22,7 @@
   }
 
   #userCardText{
-    font-size: 0.7rem!important;;
+    font-size: 1rem!important;;
   }
 
   .pt-3{

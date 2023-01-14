@@ -8,3 +8,11 @@
 #meterPriceCard .form-floating{
     width: 20rem !important;
 }
+
+@media only screen and (max-width: 600px) {
+
+    #meterPriceCard{
+        margin-top: 3rem;
+        height: 30rem;
+    }
+}

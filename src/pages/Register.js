@@ -54,9 +54,7 @@ function Register() {
       .then((response) => {
         console.log(response.data);
         console.log("inside success");
-        localStorage.setItem("jwt",response.data);
-        console.log("jwt" + response.data);
-        navigate("/userDashboard");
+        navigate("/");
       })
       .catch((error) => {
         if (error.response) {
@@ -141,7 +139,7 @@ function Register() {
                   type="password"
                   placeholder="Password"
                   style={{ width: "34rem" }}
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                  // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}

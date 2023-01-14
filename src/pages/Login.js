@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import "../css/Login.css";
 import Button from "react-bootstrap/Button";
@@ -6,7 +6,6 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import jwt_decode from "jwt-decode";
 
 function Login() {
   const [validated, setValidated] = useState(false);
@@ -55,6 +54,14 @@ function Login() {
         }
       });
   };
+
+  useEffect(() => {
+    if(localStorage.getItem("jwt")!=null){
+      navigate("/userDashboard");
+    }
+  }, [])
+  
+
   return (
     <>
       <Container id="loginContainer">
@@ -87,7 +94,7 @@ function Login() {
               type="password"
               placeholder="Password"
               style={{ width: "400px" }}
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              pattern="^(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]$"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}

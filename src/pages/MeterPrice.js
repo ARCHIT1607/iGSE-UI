@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -5,86 +6,154 @@ import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Card from "react-bootstrap/Card";
 
 import "../css/MeterPrice.css";
+import { useNavigate } from "react-router-dom";
+
 function MeterPrice() {
   const [validated, setValidated] = useState(false);
+  const navigate = useNavigate();
+  const [eMeterPriceDay, setEMeterPriceDay] = useState(0);
+  const [eMeterPriceNight, setEMeterPriceNight] = useState(0);
+  const [gMeterPrice, setGMeterPrice] = useState(0);
+  const [standingPrice, setStandingPrice] = useState(0);
+
+  let cred = localStorage.getItem("jwt");
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      submitMeterPrice();
     }
     setValidated(true);
-    
   };
 
- 
- 
+  const submitMeterPrice = async () => {
+    //Prevent page reload
+    console.log("in price set");
+    const meter = {
+      eMeterPriceDay,
+      eMeterPriceNight,
+      gMeterPrice,
+      standingPrice,
+    };
+    await Axios.post("http://localhost:8080/admin/setMeterPrice", meter, {
+      headers: {
+        Authorization: "Bearer " + cred,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        console.log("submitted meter price successfully");
+        setEMeterPriceDay(0);
+        setEMeterPriceNight(0);
+        setGMeterPrice(0);
+        setStandingPrice(0);
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+          if (error.response.data === "JWT Expired") {
+            localStorage.clear();
+          }
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt") == null) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>
       <Card border="primary" id="meterPriceCard">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <h2>Setting Price</h2>
-        <FloatingLabel
-          controlId="floatingInput"
-          label="Electricity Day"
-          className="mb-3"
-        >
-          <Form.Control
-            required
-            type="number"
-            placeholder="Electricity Day"
-            autoComplete="off"
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          <Form.Control.Feedback type="invalid">
-            email is not correct
-          </Form.Control.Feedback>
-        </FloatingLabel>
-        <FloatingLabel controlId="floatingInput" label="Electricity Night">
-          <Form.Control
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <h2>Setting Price</h2>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="Electricity Day"
             className="mb-3"
-            required
-            type="number"
-            placeholder="Electricity Night"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          <Form.Control.Feedback type="invalid">
-            password criteria not met yet!!
-          </Form.Control.Feedback>
-        </FloatingLabel>
-        <FloatingLabel controlId="floatingInput" label="Gas">
-          <Form.Control
-            className="mb-3"
-            required
-            type="number"
-            placeholder="Gas"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          <Form.Control.Feedback type="invalid">
-            password criteria not met yet!!
-          </Form.Control.Feedback>
-        </FloatingLabel>
-        <FloatingLabel controlId="floatingInput" label="Standing">
-          <Form.Control
-            className="mb-3"
-            required
-            type="number"
-            placeholder="Standing"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          <Form.Control.Feedback type="invalid">
-            password criteria not met yet!!
-          </Form.Control.Feedback>
-        </FloatingLabel>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          >
+            <Form.Control
+              required
+              type="number"
+              placeholder="Electricity Day"
+              step=".01"
+              value={eMeterPriceDay}
+              onChange={(e) => {
+                setEMeterPriceDay(e.target.value);
+              }}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              price cannot be empty
+            </Form.Control.Feedback>
+          </FloatingLabel>
+          <FloatingLabel controlId="floatingInput" label="Electricity Night">
+            <Form.Control
+              className="mb-3"
+              required
+              type="number"
+              placeholder="Electricity Night"
+              value={eMeterPriceNight}
+              step=".01"
+              onChange={(e) => {
+                setEMeterPriceNight(e.target.value);
+              }}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              price cannot be empty
+            </Form.Control.Feedback>
+          </FloatingLabel>
+          <FloatingLabel controlId="floatingInput" label="Gas">
+            <Form.Control
+              className="mb-3"
+              required
+              type="number"
+              placeholder="Gas"
+              value={gMeterPrice}
+              step=".01"
+              onChange={(e) => {
+                setGMeterPrice(e.target.value);
+              }}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              price cannot be empty
+            </Form.Control.Feedback>
+          </FloatingLabel>
+          <FloatingLabel controlId="floatingInput" label="Standing">
+            <Form.Control
+              className="mb-3"
+              required
+              type="number"
+              placeholder="Standing"
+              value={standingPrice}
+              step=".01"
+              onChange={(e) => {
+                setStandingPrice(e.target.value);
+              }}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              price cannot be empty
+            </Form.Control.Feedback>
+          </FloatingLabel>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
       </Card>
     </>
   );
