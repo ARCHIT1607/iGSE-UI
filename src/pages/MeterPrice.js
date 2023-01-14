@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
@@ -6,7 +6,6 @@ import Card from "react-bootstrap/Card";
 
 import "../css/MeterPrice.css";
 function MeterPrice() {
-
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
@@ -19,6 +18,8 @@ function MeterPrice() {
     
   };
 
+ 
+ 
 
   return (
     <>

@@ -11,7 +11,7 @@
     font-size: 0.5rem;
   }
   #userDashboardCard{
-    height: 10rem!important;
+    height: 15rem!important;
     display: flex;
     justify-content: center;
     text-align: center;
@@ -30,6 +30,6 @@
   }
 
   #topUpCard{
-    height: 5rem!important;
+    height: 8rem!important;
   }
 }

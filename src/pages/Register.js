@@ -8,23 +8,67 @@ import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import InputGroup from "react-bootstrap/InputGroup";
 import QrScanner from "qr-scanner";
+import Axios from "axios";
 import "../css/Register.css";
 
 function Register() {
-  const [validated, setValidated] = useState(false);
-  const [file, setFile] = useState(null);
   const navigate = useNavigate();
-  const [evc, setEVC] = useState("");
+
+  const [file, setFile] = useState(null);
   const fileRef = useRef();
+
+  const [customer, setCustomer] = useState([]);
+  const [propertyType, setPropertyType] = useState(0);
+  const [address, setAddress] = useState("");
+  const [bedrooms, setBedrooms] = useState(0);
+  const [evc, setEVC] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [validated, setValidated] = useState(false);
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    console.log("inside submit")
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      navigate("userDashboard");
+     handleRegister(event);
     }
     setValidated(true);
+  };
+
+  const handleRegister = async (e) => {
+    //Prevent page reload
+    console.log("in register");
+    const customer = {
+      email,
+      password,
+      propertyType,
+      address,
+      bedrooms,
+    };
+    e.preventDefault();
+    await Axios.post("http://localhost:8080/auth/register/" + evc, customer)
+      .then((response) => {
+        console.log(response.data);
+        console.log("inside success");
+        localStorage.setItem("jwt",response.data);
+        console.log("jwt" + response.data);
+        navigate("/userDashboard");
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
   };
 
   const handleTopUp = async () => {
@@ -79,7 +123,10 @@ function Register() {
                   type="email"
                   required
                   placeholder="name@example.com"
-                  style={{ width: "30rem" }}
+                  style={{ width: "34rem" }}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
@@ -93,8 +140,11 @@ function Register() {
                   required
                   type="password"
                   placeholder="Password"
-                  style={{ width: "30rem" }}
+                  style={{ width: "34rem" }}
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
@@ -105,47 +155,20 @@ function Register() {
           </Row>
           {/* Second Row */}
           <Row className="mb-3">
-            <Col xs="auto">
+            <Col xs="12">
               <FloatingLabel
-                controlId="floatingInputGrid"
-                label="Flat No / Bld name"
+                controlId="floatingTextarea"
+                label="Comments"
+                className="mb-3"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
               >
                 <Form.Control
-                  required
-                  type="text"
-                  placeholder="Flat No & Bld Name"
+                  as="textarea"
+                  placeholder="Leave a comment here"
+                  style={{ height: '100px' }}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  not valid
-                </Form.Control.Feedback>
-              </FloatingLabel>
-            </Col>
-            <Col xs="auto">
-              <FloatingLabel controlId="floatingInputGrid" label="Street Name">
-                <Form.Control required type="text" placeholder="Street Name" />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  invalid input
-                </Form.Control.Feedback>
-              </FloatingLabel>
-            </Col>
-            <Col xs="auto">
-              <FloatingLabel controlId="floatingInputGrid" label="City">
-                <Form.Control required type="text" placeholder="City" />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  invalid input
-                </Form.Control.Feedback>
-              </FloatingLabel>
-            </Col>
-            <Col xs="auto">
-              <FloatingLabel controlId="floatingInputGrid" label="Postcode">
-                <Form.Control required type="text" placeholder="Postcode" />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  invalid Postcode
-                </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
           </Row>
@@ -157,6 +180,9 @@ function Register() {
                   aria-label="Floating label select example"
                   style={{ width: "20rem" }}
                   required
+                  onChange={(e) => {
+                    setPropertyType(e.target.value);
+                  }}
                 >
                   <option value="detached">detached</option>
                   <option value="semi-detached">semi-detached</option>
@@ -180,6 +206,9 @@ function Register() {
                   min={0}
                   placeholder="Number of bedrooms"
                   style={{ width: "20rem" }}
+                  onChange={(e) => {
+                    setBedrooms(e.target.value);
+                  }}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
@@ -207,6 +236,10 @@ function Register() {
                 <Form.Control
                   placeholder="Energy voucher code (EVC)"
                   aria-label="Energy voucher code (EVC)"
+                  type="text"
+                  onChange={(e) => {
+                    setEVC(e.target.value);
+                  }}
                   style={{ height: "3.6rem" }}
                   value={evc}
                 />
@@ -222,12 +255,12 @@ function Register() {
                   Upload Qr Code
                 </Button>
                 <input
-                            type="file"
-                            ref={fileRef}
-                            onChange={handleChange}
-                            accept=".png, .jpg, .jpeg"
-                            style={{ display: "none" }}
-                          />
+                  type="file"
+                  ref={fileRef}
+                  onChange={handleChange}
+                  accept=".png, .jpg, .jpeg"
+                  style={{ display: "none" }}
+                />
               </InputGroup>
             </Col>
           </Row>
