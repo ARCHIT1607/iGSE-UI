@@ -51,7 +51,7 @@ function TopUp() {
 
   const handleTopUp = async () => {
     // Prevent page reload
-    await Axios.post("http://localhost:8080/customer/topUp?EVC=" + evc, null, {
+    await Axios.post(window.API_URL+"/customer/topUp?EVC=" + evc, null, {
       headers: {
         Authorization: "Bearer " + cred,
       },

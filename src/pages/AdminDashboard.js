@@ -8,7 +8,6 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Card from "react-bootstrap/Card";
 import MeterPrice from "./MeterPrice";
-import MeterReadings from "./Bills";
 import Analytics from "./Analytics";
 import Axios from "axios";
 import decoder from "jwt-decode";
@@ -23,7 +22,7 @@ function AdminDashboard() {
   const getAllCounts = async () => {
     //Prevent page reload
     console.log("in get all counts ");
-    await Axios.get("http://localhost:8080/admin/getAllCounts", {
+    await Axios.get(window.API_URL+"admin/getAllCounts", {
       headers: {
         Authorization: "Bearer " + cred,
       },

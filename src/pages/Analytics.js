@@ -58,7 +58,7 @@ function Analytics() {
       const dataSet2 = [];
       const dataSet3 = [];
       console.log("in get all meter readings");
-      await Axios.get("http://localhost:8080/admin/meterReadings", {
+      await Axios.get(window.API_URL+"/admin/meterReadings", {
         headers: {
           Authorization: "Bearer " + cred,
         },

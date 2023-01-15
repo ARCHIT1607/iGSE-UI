@@ -41,7 +41,7 @@ function UserMeterReading() {
     };
     e.preventDefault();
     await Axios.post(
-      "http://localhost:8080/customer/submitMeterReading",
+      window.API_URL+"/customer/submitMeterReading",
       meterReading,
       {
         headers: {

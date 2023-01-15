@@ -50,7 +50,7 @@ function Register() {
       bedrooms,
     };
     e.preventDefault();
-    await Axios.post("http://localhost:8080/auth/register/" + evc, customer)
+    await Axios.post(window.API_URL+"/auth/register/" + evc, customer)
       .then((response) => {
         console.log(response.data);
         console.log("inside success");

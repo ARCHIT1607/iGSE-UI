@@ -38,7 +38,7 @@ function MeterPrice() {
       gMeterPrice,
       standingPrice,
     };
-    await Axios.post("http://localhost:8080/admin/setMeterPrice", meter, {
+    await Axios.post(window.API_URL+"/admin/setMeterPrice", meter, {
       headers: {
         Authorization: "Bearer " + cred,
       },

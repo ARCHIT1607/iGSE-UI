@@ -37,7 +37,7 @@ function UserDashboard() {
   const getBalance = async () => {
     //Prevent page reload
     console.log("get Balance");
-    await Axios.get("http://localhost:8080/customer/getBalance", {
+    await Axios.get(window.API_URL+"/customer/getBalance", {
       headers: {
         Authorization: "Bearer " + cred,
       },

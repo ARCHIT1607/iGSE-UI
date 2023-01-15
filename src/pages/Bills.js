@@ -16,7 +16,7 @@ function Bills() {
   const getAllBills = async () => {
     //Prevent page reload
     console.log("in getAllBills");
-    await Axios.get("http://localhost:8080/admin/getAllBills", {
+    await Axios.get(window.API_URL+"/admin/getAllBills", {
       headers: {
         Authorization: "Bearer " + cred,
       },

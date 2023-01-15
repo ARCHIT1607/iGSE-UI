@@ -13,7 +13,7 @@ function UserReading() {
 
   const getUnPaidBill = async () => {
     console.log("get getBill");
-    await Axios.get("http://localhost:8080/customer/getUnPaidBill", {
+    await Axios.get(window.API_URL+"/customer/getUnPaidBill", {
       headers: {
         Authorization: "Bearer " + cred,
       },
@@ -42,7 +42,7 @@ function UserReading() {
   const payBill = async (id, amt) => {
     //Prevent page reload
     await Axios.post(
-      "http://localhost:8080/customer/payBill?billId=" + id + "&amt=" + amt,
+      window.API_URL+"/customer/payBill?billId=" + id + "&amt=" + amt,
       null,
       {
         headers: {

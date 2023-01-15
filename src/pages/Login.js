@@ -31,7 +31,7 @@ function Login() {
     console.log("in login");
     e.preventDefault();
     await Axios.post(
-      "http://localhost:8080/auth/login?email=" +
+      window.API_URL+"/auth/login?email=" +
         email +
         "&password=" +
         password
