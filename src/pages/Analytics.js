@@ -1,7 +1,6 @@
 import "../css/Analytics.css";
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import faker from "faker";
 import Axios from "axios";
 import {
   Chart as ChartJS,

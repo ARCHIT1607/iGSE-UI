@@ -1,0 +1,23 @@
+#statisticContainer {
+  height: 500px;
+}
+
+#line {
+    height: 30rem !important;
+    width: 100% !important;
+  }
+
+@media only screen and (max-width: 600px) {
+  #statisticContainer {
+    height: 500px!important;
+  }
+
+  #line {
+    height: 30rem !important;
+    width: 100% !important;
+  }
+
+  #bar {
+    height: 250px !important;
+  } 
+}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/esm/Button";
@@ -6,6 +6,9 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/Row";
 import { Outlet, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Axios from "axios";
 import "../css/UserDashboard.css";
 function UserDashboard() {
   const navigate = useNavigate();
@@ -28,16 +31,73 @@ function UserDashboard() {
   var token = localStorage.getItem("jwt");
   var decoded = jwt_decode(token);
   let isCustomer = decoded.sub!== "gse@shangrila.gov.un";
+  const [balance, setBalance] = useState(0)
+  let cred = localStorage.getItem("jwt");
+
+  const getBalance = async () => {
+    //Prevent page reload
+    console.log("get Balance");
+    await Axios.get("http://localhost:8080/customer/getBalance", {
+      headers: {
+        Authorization: "Bearer " + cred,
+      },
+    })
+      .then((response) => {
+        setBalance(response.data);
+        console.log("balance inside success", balance);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+          if (error.response.data === "JWT Expired") {
+            localStorage.clear();
+           navigate("/")
+          }
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+  };
+
+  const logout =()=>{
+    localStorage.clear();
+    navigate("/")
+  }
+
 
   useEffect(() => {
     console.log("isCustomer ", isCustomer);
     if (!isCustomer) {
       navigate("/adminDashboard");
+    }else{
+      getBalance();
     }
+    
   }, []);
 
   return (
     <>
+     
+      <Navbar bg="dark" expand="lg" variant="dark">
+        <Container>
+          <Navbar.Brand href="#" style={{fontSize:"2.2rem",color:"gold"}}>iGSE</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar.Collapse className="justify-content-end">
+              <Navbar.Text style={{fontSize:"1.2rem",color:"brown"}} className="me-3">
+                Signed in as: <a style={{color:"white"}} onClick={logout}>{decoded.sub}</a>
+              </Navbar.Text>
+              <Navbar.Text style={{fontSize:"1.2rem",color:"lightBlue"}}>
+                Balance : {balance}
+              </Navbar.Text>
+            </Navbar.Collapse>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
       <Container id="userDashboardContainer" className="mt-3">
         <Row>
           <Col>

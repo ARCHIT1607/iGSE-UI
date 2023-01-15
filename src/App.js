@@ -12,6 +12,7 @@ import MeterPrice from './pages/MeterPrice';
 import MeterReadings from './pages/MeterReadings';
 import Analytics from './pages/Analytics';
 import Test from './pages/Test';
+import Statistics from './pages/Statistics';
 function App() {
   return (
     <div className="App">
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="analytics" element={<Analytics />} />
           </Route>
           <Route exact path="/test" element={<Test />} />
+          <Route exact path="/statistics" element={<Statistics />} />
         </Routes>
     </div>
   );
