@@ -1,13 +1,67 @@
-#RegisterContainer{
-    display: flex;
-    align-items:center;
-    height:100vh;
-    justify-content: center;
+#RegisterContainer {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
 }
-
+section {
+  height: 100px !important;
+  width: 400px !important;
+}
+#qrDiv {
+  justify-content: center;
+}
+#evcInput {
+    height: 3.5rem;
+    width: 5rem!important;
+  }
+@media only screen and (min-width: 1000px) {
+  #emailInput,
+  #addressInput,
+  #pwdInput,
+  #areaInput,
+  #propertyInput,
+  #bedroomInput,
+  #evcInput {
+    height: 5rem;
+  }
+  #emailInput,
+  #addressInput,
+  #pwdInput,
+  #areaInput,
+  #propertyInput,
+  #bedroomInput {
+    width: 33rem;
+  }
+  #qrDiv{
+    display: flex;
+  }
+}
 @media only screen and (max-width: 600px) {
-    #RegisterContainer{
-        padding-left: 2.5rem;
-        font-size: 0.7rem;
-    }
+  #RegisterContainer {
+    padding-left: 2.5rem;
+    font-size: 0.7rem;
+  }
+  #emailInput,
+  #addressInput,
+  #pwdInput,
+  #areaInput,
+  #propertyInput,
+  #bedroomInput {
+    width: 20rem !important;
+  }
+
+  #evcInput {
+    height: 4rem;
+    width: 10rem!important;
+  }
+
+  #qrDiv{
+    display: flex;
+  }
+
+  section {
+    height: 70px !important;
+    width: 300px !important;
+  }
 }

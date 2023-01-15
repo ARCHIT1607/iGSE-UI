@@ -1,5 +1,28 @@
-#setPrice{
-    margin-top: 3rem;
+#setPrice {
+  margin-top: 3rem;
 }
-@media only screen and (max-width: 600px) {
+#userCardTitle,
+#meterReadingCardTitle,
+#billCardTitle {
+  font-weight: bolder !important;
+}
+#userCardText,
+#meterReadingCardText,
+#billCardText {
+  font-weight: bolder !important;
+}
+
+@media only screen and (min-width: 1000px) {
+  #userCardTitle,
+  #meterReadingCardTitle,
+  #billCardTitle {
+    font-size: 2rem;
+    font-weight: bolder !important;
+  }
+  #userCardText,
+  #meterReadingCardText,
+  #billCardText {
+    font-size: 1.5rem;
+    font-weight: bolder !important;
+  }
 }

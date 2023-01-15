@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import InputGroup from "react-bootstrap/InputGroup";
 import QrScanner from "qr-scanner";
 import Axios from "axios";
+import Scanner from "../components/Scanner";
 import "../css/Register.css";
 
 function Register() {
@@ -18,10 +19,10 @@ function Register() {
   const fileRef = useRef();
 
   const [customer, setCustomer] = useState([]);
-  const [propertyType, setPropertyType] = useState(0);
+  const [propertyType, setPropertyType] = useState();
   const [address, setAddress] = useState("");
-  const [bedrooms, setBedrooms] = useState(0);
-  const [evc, setEVC] = useState("");
+  const [bedrooms, setBedrooms] = useState();
+  const [evc, setEVC] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -29,12 +30,11 @@ function Register() {
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    console.log("inside submit")
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
-     handleRegister(event);
+      handleRegister(event);
     }
     setValidated(true);
   };
@@ -69,31 +69,6 @@ function Register() {
       });
   };
 
-  const handleTopUp = async () => {
-    //Prevent page reload
-    // await Axios.post("http://localhost:8080/customer/topUp?EVC=" + evc, null, {
-    //   headers: {
-    //     Authorization: "Basic " + cred,
-    //   },
-    // })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     console.log("Top up successfully");
-    //   })
-    //   .catch((error) => {
-    //     if (error.response) {
-    //       console.log("inside error");
-    //       console.log(error.response.data);
-    //       console.log(error.response.status);
-    //       console.log(error.response.headers);
-    //       alert(error.response.data);
-    //     } else {
-    //       console.log("Error", error.message);
-    //     }
-    //   });
-    console.log("top up");
-  };
-
   const handleClick = () => {
     fileRef.current.click();
   };
@@ -105,23 +80,52 @@ function Register() {
     setEVC(result);
   };
 
+  const [component, setComponent] = useState();
+
+  const addComponent = () => {
+    if (component == null) {
+      console.log("inside component");
+      setComponent(
+        <Scanner webcamError={webcamError} webcamScan={webcamScan}></Scanner>
+      );
+    } else {
+      setComponent();
+    }
+  };
+
+  const webcamError = (error) => {
+    if (error) {
+      console.log(error);
+    }
+  };
+  const webcamScan = (result) => {
+    // console.log("op ",result)
+    if (result) {
+      setEVC(result);
+      setComponent();
+    }
+  };
+
   return (
     <>
       <Container id="RegisterContainer">
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}
+          id="registerForm"
+        >
           <h2 className="mb-5 ">Register</h2>
           {/* First Row */}
           <Row className="g-2 mb-3">
             <Col md>
-              <FloatingLabel
-                controlId="floatingInputGrid"
-                label="Email address"
-              >
+              <FloatingLabel controlId="floatingInput" label="Email address">
                 <Form.Control
                   type="email"
                   required
                   placeholder="name@example.com"
-                  style={{ width: "34rem" }}
+                  size="lg"
+                  id="emailInput"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -138,7 +142,8 @@ function Register() {
                   required
                   type="password"
                   placeholder="Password"
-                  style={{ width: "34rem" }}
+                  id="pwdInput"
+                  size="lg"
                   // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -152,11 +157,12 @@ function Register() {
             </Col>
           </Row>
           {/* Second Row */}
-          <Row className="mb-3">
-            <Col xs="12">
+          <Row className="g-2 mb-3">
+            <Col md>
               <FloatingLabel
+              required
                 controlId="floatingTextarea"
-                label="Comments"
+                label="Address"
                 className="mb-3"
                 onChange={(e) => {
                   setAddress(e.target.value);
@@ -165,19 +171,20 @@ function Register() {
                 <Form.Control
                   as="textarea"
                   placeholder="Leave a comment here"
-                  style={{ height: '100px' }}
+                  id="addressInput"
+                  size="lg"
+                  // style={{ width: "33rem", height: "5rem" }}
                 />
               </FloatingLabel>
             </Col>
-          </Row>
-          {/* Third Row  */}
-          <Row className="g-3 mb-3">
             <Col md>
               <FloatingLabel controlId="floatingSelect" label="Property type">
                 <Form.Select
                   aria-label="Floating label select example"
-                  style={{ width: "20rem" }}
+                  id="propertyInput"
+                  // style={{ width: "33rem", height: "5rem" }}
                   required
+                  size="lg"
                   onChange={(e) => {
                     setPropertyType(e.target.value);
                   }}
@@ -193,6 +200,9 @@ function Register() {
                 </Form.Select>
               </FloatingLabel>
             </Col>
+          </Row>
+          {/* Third Row  */}
+          <Row className="g-2 mb-3">
             <Col md>
               <FloatingLabel
                 controlId="floatingInputGrid"
@@ -202,8 +212,10 @@ function Register() {
                   required
                   type="number"
                   min={0}
+                  size="lg"
                   placeholder="Number of bedrooms"
-                  style={{ width: "20rem" }}
+                  id="bedroomInput"
+                  // style={{ width: "33rem", height: "5rem" }}
                   onChange={(e) => {
                     setBedrooms(e.target.value);
                   }}
@@ -215,42 +227,25 @@ function Register() {
               </FloatingLabel>
             </Col>
             <Col md>
-              {/* <FloatingLabel
-                controlId="floatingInputGrid"
-                label="Energy voucher code (EVC)"
-              >
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Energy voucher code (EVC)"
-                  style={{ width: "20rem" }}
-                />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  invalid number
-                </Form.Control.Feedback>
-              </FloatingLabel> */}
               <InputGroup>
                 <Form.Control
+                  required
                   placeholder="Energy voucher code (EVC)"
                   aria-label="Energy voucher code (EVC)"
                   type="text"
+                  size="lg"
                   onChange={(e) => {
                     setEVC(e.target.value);
                   }}
-                  style={{ height: "3.6rem" }}
+                  id="evcInput"
+                  // style={{ height: "5rem" }}
                   value={evc}
                 />
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    handleTopUp();
-                  }}
-                >
-                  Button
+                <Button variant="success" onClick={addComponent}>
+                  Scan
                 </Button>
                 <Button variant="primary" onClick={handleClick}>
-                  Upload Qr Code
+                  Upload
                 </Button>
                 <input
                   type="file"
@@ -261,10 +256,16 @@ function Register() {
                 />
               </InputGroup>
             </Col>
+            <p className="text-end fs-6">Already have an account? <a href="/">Login</a> </p>
           </Row>
-          <Button variant="primary" type="submit">
-            Submit
+          <Button variant="primary" type="submit" size="lg">
+            Register
           </Button>
+          <Row>
+            <div id="qrDiv" className="card-body text-center mt-3">
+              {component}
+            </div>
+          </Row>
         </Form>
       </Container>
     </>

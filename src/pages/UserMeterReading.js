@@ -3,11 +3,11 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Stack from 'react-bootstrap/Stack'
+import Stack from "react-bootstrap/Stack";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../css/UserMeterReading.css"
+import "../css/UserMeterReading.css";
 
 function UserMeterReading() {
   const [validated, setValidated] = useState(false);
@@ -19,13 +19,12 @@ function UserMeterReading() {
   const [gMeterReading, setGMeterReading] = useState(0);
   let cred = localStorage.getItem("jwt");
 
-
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }else{
+    } else {
       handleSubmitMeterReading(event);
     }
     setValidated(true);
@@ -76,18 +75,19 @@ function UserMeterReading() {
 
   return (
     <>
-      <Container id="userMeterReadingContainer" >
+      <Container id="userMeterReadingContainer">
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <h2 className="mb-3 ">Meter Reading..</h2>
-            <Stack gap={4}>
+          <h2 className="mb-3 ">Meter Reading</h2>
+          <Stack gap={4}>
             <Col md>
               <FloatingLabel
                 controlId="floatingInputGrid"
-                label="Submission date (e.g. 2022-11-05, default value: today)"
+                label="Submission date"
               >
                 <Form.Control
                   type="date"
                   required
+                  size="lg"
                   onChange={(e) => {
                     setSubmissionDate(e.target.value);
                   }}
@@ -99,10 +99,14 @@ function UserMeterReading() {
               </FloatingLabel>
             </Col>
             <Col md>
-              <FloatingLabel controlId="floatingInputGrid" label="Electricity meter reading - Day (e.g. 100 kWh)">
+              <FloatingLabel
+                controlId="floatingInputGrid"
+                label="Electricity meter reading Day- (kWh)"
+              >
                 <Form.Control
                   required
                   type="number"
+                  size="lg"
                   onChange={(e) => {
                     setEMeterReadingDay(e.target.value);
                   }}
@@ -116,11 +120,12 @@ function UserMeterReading() {
             <Col md>
               <FloatingLabel
                 controlId="floatingInputGrid"
-                label="Electricity meter reading - Night (e.g. 200 kWh)"
+                label="Electricity meter reading Night- (kWh)"
               >
                 <Form.Control
                   type="number"
                   required
+                  size="lg"
                   onChange={(e) => {
                     setEMeterReadingNight(e.target.value);
                   }}
@@ -132,10 +137,14 @@ function UserMeterReading() {
               </FloatingLabel>
             </Col>
             <Col md>
-              <FloatingLabel controlId="floatingInputGrid" label="Gas meter reading (e.g. 800 kWh 1 )">
+              <FloatingLabel
+                controlId="floatingInputGrid"
+                label="Gas meter reading- kWh"
+              >
                 <Form.Control
                   required
                   type="number"
+                  size="lg"
                   onChange={(e) => {
                     setGMeterReading(e.target.value);
                   }}
@@ -146,7 +155,7 @@ function UserMeterReading() {
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
-            </Stack>
+          </Stack>
           <Button className="mt-4" variant="primary" type="submit">
             Submit
           </Button>

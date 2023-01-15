@@ -72,14 +72,15 @@ function UserReading() {
   return (
     <>
     <Container id="userReadingContainer" className='mt-3'>
+      <h3>Bill</h3>
     <Table hover responsive >
       <thead>
         <tr>
           <th >Date</th>
-          <th>Electricity Usage (D)</th>
-          <th>Eletricity Usage (N)</th>
-          <th>Gas Usage</th>
-          <th>Amount</th>
+          <th>Electricity Usage Day (kWh)</th>
+          <th>Eletricity Usage Night (kWh)</th>
+          <th>Gas Usage (kWh)</th>
+          <th>Amount (&#163;)</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -92,10 +93,10 @@ function UserReading() {
                   <td>{mReading.eMeterReadingDay}</td>
                   <td>{mReading.eMeterReadingNight}</td>
                   <td>{mReading.gMeterReading}</td>
-                  <td>{mReading.due}</td>
+                  <td>{mReading.due}&#163;</td>
                   <td>
                     <Button
-                      size='sm' variant='secondary'
+                      size='md' variant='secondary'
                       onClick={() => {
                         payBill(mReading.id, mReading.due);
                       }}

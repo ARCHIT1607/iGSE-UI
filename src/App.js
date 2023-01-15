@@ -9,10 +9,10 @@ import UserMeterReading from './pages/UserMeterReading';
 import TopUp from './pages/TopUp';
 import UserReading from './pages/UserReading';
 import MeterPrice from './pages/MeterPrice';
-import MeterReadings from './pages/MeterReadings';
 import Analytics from './pages/Analytics';
 import Test from './pages/Test';
 import Statistics from './pages/Statistics';
+import Bills from './pages/Bills';
 function App() {
   return (
     <div className="App">
@@ -26,7 +26,7 @@ function App() {
           </Route>
           <Route exact path="/adminDashboard" element={<AdminDashboard />} >
           <Route exact path="meterPrice" element={<MeterPrice />} />
-          <Route exact path="meterReadings" element={<MeterReadings />} />
+          <Route exact path="bills" element={<Bills />} />
           <Route exact path="analytics" element={<Analytics />} />
           </Route>
           <Route exact path="/test" element={<Test />} />

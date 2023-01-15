@@ -30,8 +30,8 @@ function UserDashboard() {
 
   var token = localStorage.getItem("jwt");
   var decoded = jwt_decode(token);
-  let isCustomer = decoded.sub!== "gse@shangrila.gov.un";
-  const [balance, setBalance] = useState(0)
+  let isCustomer = decoded.sub !== "gse@shangrila.gov.un";
+  const [balance, setBalance] = useState(0);
   let cred = localStorage.getItem("jwt");
 
   const getBalance = async () => {
@@ -55,7 +55,7 @@ function UserDashboard() {
           alert(error.response.data);
           if (error.response.data === "JWT Expired") {
             localStorage.clear();
-           navigate("/")
+            navigate("/");
           }
         } else {
           console.log("Error", error.message);
@@ -63,48 +63,60 @@ function UserDashboard() {
       });
   };
 
-  const logout =()=>{
+  const logout = () => {
     localStorage.clear();
-    navigate("/")
-  }
-
+    navigate("/");
+  };
 
   useEffect(() => {
     console.log("isCustomer ", isCustomer);
     if (!isCustomer) {
       navigate("/adminDashboard");
-    }else{
+    } else {
       getBalance();
     }
-    
   }, []);
 
   return (
     <>
-     
-      <Navbar bg="dark" expand="lg" variant="dark">
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#" style={{fontSize:"2.2rem",color:"gold"}}>iGSE</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Brand href="#home">iGSE</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
             <Navbar.Collapse className="justify-content-end">
-              <Navbar.Text style={{fontSize:"1.2rem",color:"brown"}} className="me-3">
-                Signed in as: <a style={{color:"white"}} onClick={logout}>{decoded.sub}</a>
-              </Navbar.Text>
-              <Navbar.Text style={{fontSize:"1.2rem",color:"lightBlue"}}>
-                Balance : {balance}
-              </Navbar.Text>
+              <Nav>
+                <Navbar.Text
+                  style={{ fontSize: "1.2rem", color: "brown" }}
+                  className="me-3"
+                >
+                  Signed in as:{" "}
+                  <a style={{ color: "white" }} onClick={logout}>
+                    {decoded.sub}
+                  </a>
+                </Navbar.Text>
+                <Navbar.Text style={{ fontSize: "1.2rem", color: "lightBlue" }}>
+                  Balance : {balance}
+                </Navbar.Text>
+              </Nav>
             </Navbar.Collapse>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container id="userDashboardContainer" className="mt-3">
-        <Row>
-          <Col>
-            <Button variant="light" onClick={openMeterReadingDialogue}>
-              <Card id="userDashboardCard" bg="primary" text="light" style={{ height: "15rem" }}>
+      <Container fluid id="userDashboardContainer">
+        <Row className="pt-5">
+          <Col >
+            <Button variant="light" onClick={openMeterReadingDialogue} className="mb-3">
+              <Card
+                id="submitMeterReadingCard"
+                bg="primary"
+                text="light"
+                style={{ height: "11rem"}}
+              >
                 <Card.Body>
-                  <Card.Title id="userCardTitle">Submit New Meter Reading</Card.Title>
+                  <Card.Title id="userCardTitle">
+                    Submit New Meter Reading
+                  </Card.Title>
                   <Card.Text id="userCardText" className="pt-3">
                     A customer can submit new meter readings
                   </Card.Text>
@@ -114,29 +126,39 @@ function UserDashboard() {
           </Col>
 
           <Col>
-          <Button variant="light" onClick={openViewDialogue}>
-            <Card bg="success" text="light" style={{ height: "10rem" }}>
-              <Card.Body>
-                <Card.Title>View & Pay Bill</Card.Title>
-                <Card.Text className="pt-3">
-                  A customer can view and pay the latest unpaid bill with energy
-                  credit*.
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            <Button variant="light" onClick={openViewDialogue}>
+              <Card
+                bg="success"
+                id="paybillCard"
+                text="light"
+                style={{ height: "11rem" }}
+              >
+                <Card.Body>
+                  <Card.Title id="payBillCardTitle">View & Pay Bill</Card.Title>
+                  <Card.Text className="pt-3" id="payBillCardText">
+                    A customer can view and pay the latest unpaid bill with
+                    energy credit*.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </Button>
           </Col>
 
           <Col>
-          <Button variant="light" onClick={openTopUpDialogue}>
-            <Card bg="secondary" text="light" style={{ height: "10rem" }} id="topUpCard">
-              <Card.Body>
-                <Card.Title>Top Up</Card.Title>
-                <Card.Text className="pt-3">
-                  A customer can top up the credit with a valid EVC*.
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            <Button variant="light" onClick={openTopUpDialogue}>
+              <Card
+                bg="secondary"
+                text="light"
+                style={{ height: "11rem" }}
+                id="topUpCard"
+              >
+                <Card.Body>
+                  <Card.Title id="topUpCardTitle">Top Up</Card.Title>
+                  <Card.Text className="pt-3" id="topUpCardText">
+                    A customer can top up the credit with a valid EVC*.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </Button>
           </Col>
         </Row>

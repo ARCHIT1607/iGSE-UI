@@ -59,6 +59,7 @@ function TopUp() {
       .then((response) => {
         console.log(response.data);
         console.log("Top up successfully");
+        window.location.reload(false);
       })
       .catch((error) => {
         if (error.response) {

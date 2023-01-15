@@ -3,6 +3,7 @@
     align-items:center;
     height:100vh;
     justify-content: center;
+    background-color: #167D7F;
 }
 
 @media only screen and (max-width: 600px) {

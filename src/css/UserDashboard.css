@@ -1,21 +1,29 @@
 
-#userDashboardCard{
-    height: 10rem!important;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-  }
+
+#userDashboardContainer{
+  background-color: #F7E7CE;
+  height: 100%!important;
+}
+
+#submitMeterReadingCard,#topUpCard{
+  width: 35rem;
+}
+  
 @media only screen and (max-width: 600px) {
   #userDashboardContainer {
     font-size: 0.5rem;
   }
-  #userDashboardCard{
-    height: 10rem!important;
+  #submitMeterReadingCard{
+    height: 14rem!important;
     display: flex;
     justify-content: center;
     text-align: center;
     align-items: center;
+    width: 9rem;
+  }
+  #paybillCard{
+    height: 14rem!important;
+    width: 9rem;
   }
   #userCardTitle{
     font-size: 1rem!important;
@@ -31,5 +39,16 @@
 
   #topUpCard{
     height: 8rem!important;
+    width: 100%;
+  }
+}
+
+
+@media only screen and (min-width: 768px) {
+  #userCardTitle,#payBillCardTitle,#topUpCardTitle{
+    font-size: 2rem;
+  }
+  #userCardText,#payBillCardText,#topUpCardText{
+    font-size: 1.5rem;
   }
 }

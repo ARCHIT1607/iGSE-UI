@@ -6,9 +6,12 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [validated, setValidated] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +51,7 @@ function Login() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
-          alert(error.response.data);
+          toast(error.response.data);
         } else {
           console.log("Error", error.message);
         }
@@ -56,17 +59,19 @@ function Login() {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("jwt")!=null){
+    if (localStorage.getItem("jwt") != null) {
       navigate("/userDashboard");
     }
-  }, [])
-  
+  }, []);
 
   return (
     <>
-      <Container id="loginContainer">
+      <Container fluid id="loginContainer">
+        <ToastContainer></ToastContainer>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <h2>Login</h2>
+          <h1 style={{ color: "white", fontWeight: "bold" }} className="mb-5">
+            Login
+          </h1>
           <FloatingLabel
             controlId="floatingInput"
             label="Email address"
@@ -77,13 +82,21 @@ function Login() {
               type="email"
               placeholder="Email"
               autoComplete="off"
-              style={{ width: "400px" }}
+              size="lg"
+              style={{ width: "500px", height:"5rem"}}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback
+              style={{ color: "gold", fontWeight: "bold" }}
+            >
+              Looks good!
+            </Form.Control.Feedback>
+            <Form.Control.Feedback
+              type="invalid"
+              style={{ color: "red", fontWeight: "bold" }}
+            >
               email is not correct
             </Form.Control.Feedback>
           </FloatingLabel>
@@ -92,20 +105,30 @@ function Login() {
               className="mb-3"
               required
               type="password"
+              size="lg"
               placeholder="Password"
-              style={{ width: "400px" }}
-              pattern="^(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]$"
+              style={{ width: "500px", height:"5rem"}}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback
+              style={{ color: "gold", fontWeight: "bold" }}
+            >
+              Looks good!
+            </Form.Control.Feedback>
+            <Form.Control.Feedback
+              type="invalid"
+              style={{ color: "red", fontWeight: "bold" }}
+            >
               password criteria not met yet!!
             </Form.Control.Feedback>
           </FloatingLabel>
-          <Button variant="primary" type="submit">
-            Submit
+          <p  className="text-end" style={{ fontSize: "1rem", color: "white" }}>
+            New to iGSE? <a style={{color:"black",fontWeight:"bolder"}} href="/register">Register from here!!</a>
+          </p>
+          <Button variant="primary" type="submit" size="lg" className="mt-3">
+            Login
           </Button>
         </Form>
       </Container>

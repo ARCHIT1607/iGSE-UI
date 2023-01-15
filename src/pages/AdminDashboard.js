@@ -8,10 +8,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Card from "react-bootstrap/Card";
 import MeterPrice from "./MeterPrice";
-import MeterReadings from "./MeterReadings";
+import MeterReadings from "./Bills";
 import Analytics from "./Analytics";
 import Axios from "axios";
 import decoder from "jwt-decode";
+import Bills from "./Bills";
 function AdminDashboard() {
   const navigate = useNavigate();
   const [counts, setCounts] = useState([]);
@@ -105,24 +106,24 @@ function AdminDashboard() {
           <Col>
             <Card border="primary">
               <Card.Body>
-                <Card.Title>Users</Card.Title>
-                <Card.Text>{counts.userCount}</Card.Text>
+                <Card.Title id="userCardTitle">Users</Card.Title>
+                <Card.Text id="userCardText">{counts.userCount}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
           <Col>
             <Card border="primary">
               <Card.Body>
-                <Card.Title>Meter Readings</Card.Title>
-                <Card.Text>{counts.meterReadingCount}</Card.Text>
+                <Card.Title id="meterReadingCardTitle">Meter Readings</Card.Title>
+                <Card.Text id="meterReadingCardText">{counts.meterReadingCount}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
           <Col>
             <Card border="primary">
               <Card.Body>
-                <Card.Title>Bills</Card.Title>
-                <Card.Text>{counts.billCount}</Card.Text>
+                <Card.Title id="billCardTitle">Bills</Card.Title>
+                <Card.Text id="billCardText">{counts.billCount}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -136,7 +137,7 @@ function AdminDashboard() {
           </Col>
         </Row>
         <Row>
-          <MeterReadings></MeterReadings>
+          <Bills></Bills>
         </Row>
       </Container>
     </>

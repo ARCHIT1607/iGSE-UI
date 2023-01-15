@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "../css/MeterReadings.css";
+import "../css/Bills.css";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/esm/Container";
 import Card from "react-bootstrap/esm/Card";
 import Axios from "axios";
-function MeterReadings() {
+function Bills() {
   useEffect(() => {
     getAllBills();
   }, []);
@@ -47,7 +47,7 @@ function MeterReadings() {
     <>
       <Container id="meterReadingsContainer" className="mt-5 mb-5">
         <Card border="primary" >
-          <h3 className="mt-3">Generated Bills</h3>
+          <h3 className="mt-3" style={{fontWeight:"bolder"}}>Generated Bills</h3>
           <Table hover responsive borderless>
             <thead>
               <tr>
@@ -56,6 +56,7 @@ function MeterReadings() {
                 <th>Electricity(N)</th>
                 <th>Gas</th>
                 <th>Amount</th>
+                <th>Status</th>
                 <th>Submission Date</th>
               </tr>
             </thead>
@@ -69,6 +70,7 @@ function MeterReadings() {
                       <td>{mReading.eMeterReadingNight}</td>
                       <td>{mReading.gMeterReading}</td>
                       <td>{mReading.due}</td>
+                      <td>{mReading.status}</td>
                       <td>{mReading.billDate}</td>
                     </tr>
                   );
@@ -81,4 +83,4 @@ function MeterReadings() {
   );
 }
 
-export default MeterReadings;
+export default Bills;

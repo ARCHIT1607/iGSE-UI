@@ -122,7 +122,7 @@ function Analytics() {
 
 
   return (
-    <Container id="analyticContainer" className="mt-3">
+    <Container id="analyticContainer" className="mt-3" >
       <Line id="bar1" data={data} options={options} height={100}/>
     </Container>
   );
