@@ -4,7 +4,10 @@ import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/esm/Container";
 import Card from "react-bootstrap/esm/Card";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 function Bills() {
+
+  const navigate = useNavigate();
   useEffect(() => {
     getAllBills();
   }, []);
@@ -32,11 +35,12 @@ function Bills() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
-          alert(error.response.data);
           if (error.response.data === "JWT Expired") {
+            alert(error.response.data);
             localStorage.clear();
-            window.location.reload(false);
+            navigate("/")
           }
+          alert(error.response.data);
         } else {
           console.log("Error", error.message);
         }

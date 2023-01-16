@@ -16,7 +16,7 @@ import {
   Legend,
 } from "chart.js/auto";
 
-import { Bar, Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 ChartJS.register(
@@ -131,8 +131,6 @@ function Statistics() {
       });
   };
 
-  const [billStatistic, setBillStatistic] = useState([]);
-
   const getBillStatistics = async () => {
     //Prevent page reload
     const labelSet = [];
@@ -197,11 +195,12 @@ function Statistics() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
-          alert(error.response.data);
           if (error.response.data === "JWT Expired") {
+            alert(error.response.data);
             localStorage.clear();
-            navigate("/");
+            navigate("/")
           }
+          alert(error.response.data);
         } else {
           console.log("Error", error.message);
         }
@@ -242,75 +241,7 @@ function Statistics() {
     ],
   });
 
-  //   const data1 = {
-  //     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-  //     datasets: [
-  //       {
-  //         label: billDateLabelSet,
-  //         data: amountDataset,
-  //         backgroundColor: [
-  //           "rgba(255, 99, 132, 0.2)",
-  //           "rgba(54, 162, 235, 0.2)",
-  //           "rgba(255, 206, 86, 0.2)",
-  //           "rgba(75, 192, 192, 0.2)",
-  //           "rgba(153, 102, 255, 0.2)",
-  //           "rgba(255, 159, 64, 0.2)",
-  //         ],
-  //         borderColor: [
-  //           "rgba(255, 99, 132, 1)",
-  //           "rgba(54, 162, 235, 1)",
-  //           "rgba(255, 206, 86, 1)",
-  //           "rgba(75, 192, 192, 1)",
-  //           "rgba(153, 102, 255, 1)",
-  //           "rgba(255, 159, 64, 1)",
-  //         ],
-  //         borderWidth: 1,
-  //       },
-  //     ],
-  //   };
 
-  //   const eMeterPriceDay = [];
-  //   const eMeterPriceNight = [];
-  //   const gMeterPrice = [];
-  //   const amount = [];
-  //   const billDateLabelSet=[];
-  //   for (const val of billStatistic) {
-  //     eMeterPriceDay.push(val.e_meter_reading_day);
-  //     eMeterPriceNight.push(val.e_meter_reading_night);
-  //     gMeterPrice.push(val.g_meter_reading);
-  //     amount.push(val.amount);
-  //     billDateLabelSet.push(val.bill_date)
-  //   }
-  //   console.log("eMeterPriceDay ",eMeterPriceDay)
-  //   const data2 = {
-  //     billDateLabelSet,
-  //     datasets: [
-  //       {
-  //         label: 'Dataset 1',
-  //         data: eMeterPriceDay,
-  //         backgroundColor: 'rgb(255, 99, 132)',
-  //         stack: 'Stack 0',
-  //       },
-  //       {
-  //         label: 'Dataset 2',
-  //         data: eMeterPriceNight,
-  //         backgroundColor: 'rgb(75, 192, 192)',
-  //         stack: 'Stack 0',
-  //       },
-  //       {
-  //         label: 'Dataset 3',
-  //         data: gMeterPrice,
-  //         backgroundColor: 'rgb(53, 162, 235)',
-  //         stack: 'Stack 1',
-  //       },
-  //       {
-  //         label: 'Dataset 3',
-  //         data: amount,
-  //         backgroundColor: 'rgb(53, 162, 235)',
-  //         stack: 'Stack 1',
-  //       },
-  //     ],
-  //   };
   const options1 = {
     maintainAspectRatio: false,
     plugins: {
@@ -333,7 +264,7 @@ function Statistics() {
       <Navbar bg="dark" expand="lg" variant="dark">
         <Container>
           <Navbar.Brand
-            href="#adminDashboardContainer"
+            href="/adminDashboard"
             style={{ fontSize: "2.5rem", color: "gold" }}
           >
             iGSE
@@ -346,24 +277,6 @@ function Statistics() {
                 style={{ fontSize: "1.5rem", color: "white" }}
               >
                 Home
-              </Nav.Link>
-              <Nav.Link
-                 href="/adminDashboard#meterPriceCard"
-                style={{ fontSize: "1.5rem", color: "white" }}
-              >
-                PriceSet
-              </Nav.Link>
-              <Nav.Link
-                href="/statistics"
-                style={{ fontSize: "1.5rem", color: "white" }}
-              >
-                Analytics
-              </Nav.Link>
-              <Nav.Link
-                href="/adminDashboard#meterReadingsContainer"
-                style={{ fontSize: "1.5rem", color: "white" }}
-              >
-                Bills
               </Nav.Link>
             </Nav>
             <Navbar.Collapse className="justify-content-end">

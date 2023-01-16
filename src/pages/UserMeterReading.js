@@ -60,6 +60,11 @@ function UserMeterReading() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+          if (error.response.data === "JWT Expired") {
+            alert(error.response.data);
+            localStorage.clear();
+            navigate("/")
+          }
           alert(error.response.data);
         } else {
           console.log("Error", error.message);
@@ -88,11 +93,11 @@ function UserMeterReading() {
                   type="date"
                   required
                   size="lg"
+                  
                   onChange={(e) => {
                     setSubmissionDate(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
                   date is not correct
                 </Form.Control.Feedback>
@@ -107,13 +112,13 @@ function UserMeterReading() {
                   required
                   type="number"
                   size="lg"
+                  min={0}
                   onChange={(e) => {
                     setEMeterReadingDay(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
-                  password criteria not met yet!!
+                  Electricity meter reading Day should be more than previous month
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -126,13 +131,13 @@ function UserMeterReading() {
                   type="number"
                   required
                   size="lg"
+                  min={0}
                   onChange={(e) => {
                     setEMeterReadingNight(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
-                  date is not correct
+                Electricity meter reading Night should be more than previous month
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -145,13 +150,13 @@ function UserMeterReading() {
                   required
                   type="number"
                   size="lg"
+                  min={0}
                   onChange={(e) => {
                     setGMeterReading(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
-                  password criteria not met yet!!
+                Gas meter reading should be more than previous month
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>

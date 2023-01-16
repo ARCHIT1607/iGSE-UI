@@ -11,10 +11,10 @@ import { useNavigate } from "react-router-dom";
 function MeterPrice() {
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
-  const [eMeterPriceDay, setEMeterPriceDay] = useState(0);
-  const [eMeterPriceNight, setEMeterPriceNight] = useState(0);
-  const [gMeterPrice, setGMeterPrice] = useState(0);
-  const [standingPrice, setStandingPrice] = useState(0);
+  const [eMeterPriceDay, setEMeterPriceDay] = useState();
+  const [eMeterPriceNight, setEMeterPriceNight] = useState();
+  const [gMeterPrice, setGMeterPrice] = useState();
+  const [standingPrice, setStandingPrice] = useState();
 
   let cred = localStorage.getItem("jwt");
 
@@ -38,7 +38,7 @@ function MeterPrice() {
       gMeterPrice,
       standingPrice,
     };
-    await Axios.post(window.API_URL+"/admin/setMeterPrice", meter, {
+    await Axios.post(window.API_URL + "/admin/setMeterPrice", meter, {
       headers: {
         Authorization: "Bearer " + cred,
       },
@@ -46,10 +46,6 @@ function MeterPrice() {
       .then((response) => {
         console.log(response.data);
         console.log("submitted meter price successfully");
-        setEMeterPriceDay(0);
-        setEMeterPriceNight(0);
-        setGMeterPrice(0);
-        setStandingPrice(0);
         window.location.reload(false);
       })
       .catch((error) => {
@@ -58,10 +54,12 @@ function MeterPrice() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
-          alert(error.response.data);
           if (error.response.data === "JWT Expired") {
+            alert(error.response.data);
             localStorage.clear();
+            navigate("/")
           }
+          alert(error.response.data);
         } else {
           console.log("Error", error.message);
         }
@@ -89,6 +87,8 @@ function MeterPrice() {
               type="number"
               placeholder="Electricity Day"
               step=".01"
+              size="lg"
+              style={{ height: "4.5rem" }}
               value={eMeterPriceDay}
               onChange={(e) => {
                 setEMeterPriceDay(e.target.value);
@@ -107,6 +107,8 @@ function MeterPrice() {
               placeholder="Electricity Night"
               value={eMeterPriceNight}
               step=".01"
+              size="lg"
+              style={{ height: "4.5rem" }}
               onChange={(e) => {
                 setEMeterPriceNight(e.target.value);
               }}
@@ -124,6 +126,8 @@ function MeterPrice() {
               placeholder="Gas"
               value={gMeterPrice}
               step=".01"
+              size="lg"
+              style={{ height: "4.5rem" }}
               onChange={(e) => {
                 setGMeterPrice(e.target.value);
               }}
@@ -141,6 +145,8 @@ function MeterPrice() {
               placeholder="Standing"
               value={standingPrice}
               step=".01"
+              size="lg"
+              style={{ height: "4.5rem" }}
               onChange={(e) => {
                 setStandingPrice(e.target.value);
               }}

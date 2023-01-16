@@ -8,14 +8,14 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import jwt_decode from "jwt-decode";
 
 function Login() {
   const [validated, setValidated] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+ 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -58,9 +58,35 @@ function Login() {
       });
   };
 
+  const [pwdError, setPwdError] = useState("")
+  const onPwdChange=(e)=>{
+    if(e.target.id=="pwdInput"){
+      console.log("length ",e.target.value.length)
+      if(e.target.value.length==0){
+        setPwdError("password cannot be empty")
+      }else if(e.target.value.length<=6){
+        setPwdError("password must be between 6 and 10 character")
+        console.log("pwdError",pwdError)
+      }
+      else{
+        setPwdError("")
+        setPassword(e.target.value)
+      }
+    }
+  }
+
   useEffect(() => {
-    if (localStorage.getItem("jwt") != null) {
-      navigate("/userDashboard");
+    var token = localStorage.getItem("jwt");
+
+    if (token != null) {
+      var decoded = jwt_decode(token);
+      let isCustomer = decoded.sub !== "gse@shangrila.gov.un";
+      if(!isCustomer){
+        navigate("/adminDashboard");
+      }
+      else{
+        navigate("/userDashboard");
+      }
     }
   }, []);
 
@@ -83,21 +109,17 @@ function Login() {
               placeholder="Email"
               autoComplete="off"
               size="lg"
-              style={{ width: "500px", height:"5rem"}}
+              style={{ width: "500px", height:"4rem"}}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
             <Form.Control.Feedback
-              style={{ color: "gold", fontWeight: "bold" }}
-            >
-              Looks good!
-            </Form.Control.Feedback>
-            <Form.Control.Feedback
               type="invalid"
-              style={{ color: "red", fontWeight: "bold" }}
+              className="text-end"
+              style={{ color: "red", fontWeight: "bold",fontSize:"1rem" }}
             >
-              email is not correct
+              email format incorrect
             </Form.Control.Feedback>
           </FloatingLabel>
           <FloatingLabel controlId="floatingPassword" label="Password">
@@ -106,22 +128,21 @@ function Login() {
               required
               type="password"
               size="lg"
+              id="pwdInput"
+              minLength={6}
+              maxLength={10}
               placeholder="Password"
-              style={{ width: "500px", height:"5rem"}}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              style={{ width: "500px", height:"4rem"}}
+              onChange={
+                onPwdChange
+              }
             />
             <Form.Control.Feedback
-              style={{ color: "gold", fontWeight: "bold" }}
-            >
-              Looks good!
-            </Form.Control.Feedback>
-            <Form.Control.Feedback
               type="invalid"
-              style={{ color: "red", fontWeight: "bold" }}
+              className="text-end"
+              style={{ color: "red", fontWeight: "bold",fontSize:"1rem" }}
             >
-              password criteria not met yet!!
+              {pwdError!=""?pwdError:"password cannot be empty"}
             </Form.Control.Feedback>
           </FloatingLabel>
           <p  className="text-end" style={{ fontSize: "1rem", color: "white" }}>

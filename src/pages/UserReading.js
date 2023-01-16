@@ -4,13 +4,13 @@ import "../css/UserReading.css"
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/esm/Button';
 import Container from 'react-bootstrap/esm/Container';
+import { useNavigate } from "react-router-dom";
 
 function UserReading() {
 
   const [meterReadings, setMeterReadings] = useState([]);
-  const [price, setPrice] = useState([]);
   let cred = localStorage.getItem("jwt");
-
+ const navigate = useNavigate();
   const getUnPaidBill = async () => {
     console.log("get getBill");
     await Axios.get(window.API_URL+"/customer/getUnPaidBill", {
@@ -21,18 +21,19 @@ function UserReading() {
       .then((response) => {
         setMeterReadings(response.data);
         console.log("meter readings ", meterReadings);
-        console.log("response.data ",response.data)
-        if(response.data==="JWT Expired")
-        {
-          console.log("clearing jwt")
-          localStorage.clear();
-        }
        
       })
       .catch((error) => {
         if (error.response) {
           console.log(error.response.data);
-          alert(error.response.data);
+          
+          if(error.response.data==="JWT Expired")
+          {
+            alert("Session has expired!");
+            console.log("clearing jwt")
+            localStorage.clear();
+            navigate("/");
+          }
         } else {
           console.log("Error", error.message);
         }
@@ -58,6 +59,11 @@ function UserReading() {
       .catch((error) => {
         if (error.response) {
           console.log(error.response.data);
+          if (error.response.data === "JWT Expired") {
+            alert(error.response.data);
+            localStorage.clear();
+            navigate("/")
+          }
           alert(error.response.data);
         } else {
           console.log("Error", error.message);
@@ -96,7 +102,7 @@ function UserReading() {
                   <td>{mReading.due}&#163;</td>
                   <td>
                     <Button
-                      size='md' variant='secondary'
+                      size='lg' variant='secondary'
                       onClick={() => {
                         payBill(mReading.id, mReading.due);
                       }}

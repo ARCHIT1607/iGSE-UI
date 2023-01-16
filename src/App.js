@@ -1,6 +1,6 @@
 
 import './App.css';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import UserDashboard from './pages/UserDashboard';
@@ -10,7 +10,6 @@ import TopUp from './pages/TopUp';
 import UserReading from './pages/UserReading';
 import MeterPrice from './pages/MeterPrice';
 import Analytics from './pages/Analytics';
-import Test from './pages/Test';
 import Statistics from './pages/Statistics';
 import Bills from './pages/Bills';
 function App() {
@@ -29,7 +28,6 @@ function App() {
           <Route exact path="bills" element={<Bills />} />
           <Route exact path="analytics" element={<Analytics />} />
           </Route>
-          <Route exact path="/test" element={<Test />} />
           <Route exact path="/statistics" element={<Statistics />} />
         </Routes>
     </div>

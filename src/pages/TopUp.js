@@ -9,7 +9,9 @@ import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import QrScanner from "qr-scanner";
 import Axios from "axios";
 import Scanner from "../components/Scanner";
+import { useNavigate } from "react-router-dom";
 function TopUp() {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [file, setFile] = useState(null);
   const fileRef = useRef();
@@ -67,6 +69,11 @@ function TopUp() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+          if (error.response.data === "JWT Expired") {
+            alert(error.response.data);
+            localStorage.clear();
+            navigate("/")
+          }
           alert(error.response.data);
         } else {
           console.log("Error", error.message);
@@ -103,6 +110,9 @@ function TopUp() {
                   placeholder="Energy voucher code (EVC)"
                   style={{ width: "20rem" }}
                   value={evc}
+                  onChange={(e)=>{
+                    setEVC(e.target.value);
+                  }}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
@@ -113,13 +123,13 @@ function TopUp() {
           </Row>
           <Row>
             <Col >
-              <Button variant="primary" onClick={addComponent} className="me-3">
+              <Button variant="primary" onClick={addComponent} className="me-3" size="lg">
                 Scan
               </Button>
-              <Button variant="primary" onClick={handleClick} className="me-3">
+              <Button variant="primary" onClick={handleClick} className="me-3" size="lg">
                 Upload
               </Button>
-              <Button variant="primary" onClick={handleTopUp} className="me-3">
+              <Button variant="primary" onClick={handleTopUp} className="me-3" size="lg">
                 TopUp
               </Button>
               <input

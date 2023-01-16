@@ -1,54 +1,66 @@
+#userDashboardContainer {
+  background-color: #f7e7ce;
+  height: 100vh!important;
 
-
-#userDashboardContainer{
-  background-color: #F7E7CE;
-  height: 100%!important;
 }
 
-#submitMeterReadingCard,#topUpCard{
+#submitMeterReadingCard,
+#topUpCard {
   width: 35rem;
 }
-  
+
+.form-floating {
+  color: black;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
 @media only screen and (max-width: 600px) {
   #userDashboardContainer {
     font-size: 0.5rem;
   }
-  #submitMeterReadingCard{
-    height: 14rem!important;
+  #submitMeterReadingCard {
+    height: 14rem !important;
     display: flex;
     justify-content: center;
     text-align: center;
     align-items: center;
     width: 9rem;
   }
-  #paybillCard{
-    height: 14rem!important;
+  #paybillCard {
+    height: 14rem !important;
     width: 9rem;
   }
-  #userCardTitle{
-    font-size: 1rem!important;
+  #userCardTitle {
+    font-size: 1rem !important;
   }
 
-  #userCardText{
-    font-size: 1rem!important;;
+  #userCardText {
+    font-size: 1rem !important;
   }
 
-  .pt-3{
-    padding-top: 0.2rem!important;
+  .pt-3 {
+    padding-top: 0.2rem !important;
   }
 
-  #topUpCard{
-    height: 8rem!important;
+  #topUpCard {
+    height: 8rem !important;
     width: 100%;
   }
 }
 
-
 @media only screen and (min-width: 768px) {
-  #userCardTitle,#payBillCardTitle,#topUpCardTitle{
+  #userCardTitle,
+  #payBillCardTitle,
+  #topUpCardTitle {
     font-size: 2rem;
   }
-  #userCardText,#payBillCardText,#topUpCardText{
+  #userCardText,
+  #payBillCardText,
+  #topUpCardText {
     font-size: 1.5rem;
+  }
+
+  #floatingInputGrid{
+    height: 4.5rem;
   }
 }

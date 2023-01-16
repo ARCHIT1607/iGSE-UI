@@ -52,11 +52,12 @@ function UserDashboard() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
-          alert(error.response.data);
           if (error.response.data === "JWT Expired") {
+            alert(error.response.data);
             localStorage.clear();
-            navigate("/");
+            navigate("/")
           }
+          alert(error.response.data);
         } else {
           console.log("Error", error.message);
         }
@@ -81,7 +82,7 @@ function UserDashboard() {
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">iGSE</Navbar.Brand>
+          <Navbar.Brand href="/userDashboard" style={{ fontSize: "2.5rem", color: "gold" }}>iGSE</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Navbar.Collapse className="justify-content-end">
@@ -91,12 +92,12 @@ function UserDashboard() {
                   className="me-3"
                 >
                   Signed in as:{" "}
-                  <a style={{ color: "white" }} onClick={logout}>
+                  <a  style={{ color: "white" }} onClick={logout}>
                     {decoded.sub}
                   </a>
                 </Navbar.Text>
                 <Navbar.Text style={{ fontSize: "1.2rem", color: "lightBlue" }}>
-                  Balance : {balance}
+                  Balance : {balance.toFixed(2)}
                 </Navbar.Text>
               </Nav>
             </Navbar.Collapse>

@@ -18,7 +18,6 @@ function Register() {
   const [file, setFile] = useState(null);
   const fileRef = useRef();
 
-  const [customer, setCustomer] = useState([]);
   const [propertyType, setPropertyType] = useState();
   const [address, setAddress] = useState("");
   const [bedrooms, setBedrooms] = useState();
@@ -105,6 +104,21 @@ function Register() {
       setComponent();
     }
   };
+const [pwdError, setPwdError] = useState("")
+
+  const onPwdChange=(e)=>{
+    if(e.target.id=="pwdInput"){
+      if(e.target.value.length==0){
+        setPwdError("password cannot be empty")
+      }else if(e.target.value.length<=6){
+        setPwdError("password must be between 6 and 10 character")
+      }
+      else{
+        setPwdError("")
+        setPassword(e.target.value)
+      }
+    }
+  }
 
   return (
     <>
@@ -126,13 +140,12 @@ function Register() {
                   placeholder="name@example.com"
                   size="lg"
                   id="emailInput"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  onChange={(e)=>{
+                    setEmail(e.target.value)}}
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
-                  email is not correct
+                  email format incorrect
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -143,15 +156,16 @@ function Register() {
                   type="password"
                   placeholder="Password"
                   id="pwdInput"
+                  minLength={6}
+                  maxLength={10}
                   size="lg"
-                  // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  onChange={
+                    onPwdChange
+                  }
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
-                  password criteria not met yet!!
+                {pwdError!=""?pwdError:"password cannot be empty"}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -173,8 +187,12 @@ function Register() {
                   placeholder="Leave a comment here"
                   id="addressInput"
                   size="lg"
-                  // style={{ width: "33rem", height: "5rem" }}
+                  required
                 />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                address cannot be empty
+                </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
             <Col md>
@@ -182,9 +200,8 @@ function Register() {
                 <Form.Select
                   aria-label="Floating label select example"
                   id="propertyInput"
-                  // style={{ width: "33rem", height: "5rem" }}
                   required
-                  size="lg"
+                  size="md"
                   onChange={(e) => {
                     setPropertyType(e.target.value);
                   }}
@@ -215,7 +232,6 @@ function Register() {
                   size="lg"
                   placeholder="Number of bedrooms"
                   id="bedroomInput"
-                  // style={{ width: "33rem", height: "5rem" }}
                   onChange={(e) => {
                     setBedrooms(e.target.value);
                   }}
@@ -238,7 +254,6 @@ function Register() {
                     setEVC(e.target.value);
                   }}
                   id="evcInput"
-                  // style={{ height: "5rem" }}
                   value={evc}
                 />
                 <Button variant="success" onClick={addComponent}>
