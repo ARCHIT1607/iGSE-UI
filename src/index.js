@@ -10,7 +10,7 @@ if(process.env.NODE_ENV ==="production"){
   console.log("api url ",window.API_URL)
 }else{
   console.log("dev")
-  window.API_URL = process.env.React_App_API_URL
+  window.API_URL = process.env.REACT_APP_API_URL
   console.log("api url ",window.API_URL)
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
