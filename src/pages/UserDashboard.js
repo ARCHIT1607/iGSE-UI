@@ -95,7 +95,7 @@ function UserDashboard() {
                 >
                   Signed in as:{" "}
                   <a  style={{ color: "white" }} onClick={logout}>
-                    {decoded.sub}
+                    {decoded.sub} (logout)
                   </a>
                 </Navbar.Text>
                 <Navbar.Text style={{ fontSize: "1.2rem", color: "lightBlue" }}>

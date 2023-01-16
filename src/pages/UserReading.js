@@ -98,7 +98,7 @@ function UserReading() {
                   <td>{mReading.eMeterReadingDay}</td>
                   <td>{mReading.eMeterReadingNight}</td>
                   <td>{mReading.gMeterReading}</td>
-                  <td>{mReading.due}&#163;</td>
+                  <td>{mReading.due.toFixed(2)}&#163;</td>
                   <td>
                     <Button
                       size='lg' variant='secondary'

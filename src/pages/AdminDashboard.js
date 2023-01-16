@@ -145,7 +145,7 @@ function AdminDashboard() {
               <Navbar.Text style={{ fontSize: "1.5rem", color: "brown" }}>
                 Signed in as:{" "}
                 <a style={{ color: "white" }} onClick={logout}>
-                  {email}
+                  {email} (logout)
                 </a>
               </Navbar.Text>
             </Navbar.Collapse>
