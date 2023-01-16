@@ -99,7 +99,7 @@ function UserDashboard() {
                   </a>
                 </Navbar.Text>
                 <Navbar.Text style={{ fontSize: "1.2rem", color: "lightBlue" }}>
-                  Balance : {balance.toFixed(2)}
+                  Balance : {balance.toFixed(2)} &#163;
                 </Navbar.Text>
               </Nav>
             </Navbar.Collapse>

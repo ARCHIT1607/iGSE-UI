@@ -279,10 +279,10 @@ function Register() {
                   {evcErrorMsg}
                 </Form.Control.Feedback>
                 <Button variant="success" onClick={addComponent}>
-                  Scan
+                  Scan Qr
                 </Button>
                 <Button variant="primary" onClick={handleClick}>
-                  Upload
+                  Upload Qr
                 </Button>
                 <input
                   type="file"

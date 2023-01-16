@@ -61,7 +61,7 @@ function Bills() {
                 <th>Electricity(D)</th>
                 <th>Electricity(N)</th>
                 <th>Gas</th>
-                <th>Amount</th>
+                <th>Amount (&#163;)</th>
                 <th>Status</th>
                 <th>Submission Date</th>
               </tr>

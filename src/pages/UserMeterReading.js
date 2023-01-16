@@ -41,7 +41,7 @@ function UserMeterReading() {
     };
     e.preventDefault();
     await Axios.post(
-      window.API_URL+"/customer/submitMeterReading",
+      window.API_URL + "/customer/submitMeterReading",
       meterReading,
       {
         headers: {
@@ -53,19 +53,27 @@ function UserMeterReading() {
         console.log(response.data);
         console.log("submitted meter reading successfully");
         alert(response.data);
+        window.location.reload(false)
       })
       .catch((error) => {
         if (error.response) {
           console.log("inside error");
           console.log(error.response.data);
           console.log(error.response.status);
-          console.log(error.response.headers);
+          if (error.response.data.errorType == "month_submitted_found") {
+            setSubDateErrorMsg(error.response.data.errorMsg);
+            setSubDateError("block");
+          } else if (
+            error.response.data.errorType == "meter_reading_less_than_previous"
+          ) {
+            setReadingErrorMsg(error.response.data.errorMsg);
+            setReadingError("block");
+          } else {
+            alert(error.response.data.errorMsg);
+          }
           if (error.response.data === "JWT Expired") {
             localStorage.clear();
-            navigate("/")
-          }
-          else{
-            alert(error.response.data);
+            navigate("/");
           }
         } else {
           console.log("Error", error.message);
@@ -78,6 +86,12 @@ function UserMeterReading() {
       navigate("/");
     }
   });
+
+  const [subDateError, setSubDateError] = useState("none");
+  const [subDateErrorMsg, setSubDateErrorMsg] = useState("");
+
+  const [readingError, setReadingError] = useState("none");
+  const [readingErrorMsg, setReadingErrorMsg] = useState("");
 
   return (
     <>
@@ -94,13 +108,18 @@ function UserMeterReading() {
                   type="date"
                   required
                   size="lg"
-                  
                   onChange={(e) => {
                     setSubmissionDate(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback type="invalid">
-                  date is not correct
+                <Form.Control.Feedback type="invalid" style={{
+                    color: "red",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    display: subDateError,
+                  }}
+                >
+                  {subDateErrorMsg}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -118,8 +137,14 @@ function UserMeterReading() {
                     setEMeterReadingDay(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback type="invalid">
-                  Electricity meter reading Day should be more than previous month
+                <Form.Control.Feedback type="invalid"style={{
+                    color: "red",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    display: readingError,
+                  }}
+                >
+                  {readingErrorMsg}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -137,8 +162,16 @@ function UserMeterReading() {
                     setEMeterReadingNight(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback type="invalid">
-                Electricity meter reading Night should be more than previous month
+                <Form.Control.Feedback
+                  type="invalid"
+                  style={{
+                    color: "red",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    display: readingError,
+                  }}
+                >
+                  {readingErrorMsg}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -156,8 +189,14 @@ function UserMeterReading() {
                     setGMeterReading(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback type="invalid">
-                Gas meter reading should be more than previous month
+                <Form.Control.Feedback type="invalid" style={{
+                    color: "red",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    display: readingError,
+                  }}
+                >
+                  {readingErrorMsg}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>

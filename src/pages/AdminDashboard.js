@@ -129,12 +129,6 @@ function AdminDashboard() {
                 Home
               </Nav.Link>
               <Nav.Link
-                href="#meterPriceCard"
-                style={{ fontSize: "1.5rem", color: "white" }}
-              >
-                PriceSet
-              </Nav.Link>
-              <Nav.Link
                 href="/statistics"
                 style={{ fontSize: "1.5rem", color: "white" }}
               >
