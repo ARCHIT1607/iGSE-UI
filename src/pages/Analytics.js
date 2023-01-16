@@ -55,51 +55,35 @@ function Analytics() {
       //Prevent page reload
       const labelSet = [];
       const dataSet1 = [];
-      const dataSet2 = [];
-      const dataSet3 = [];
-      console.log("in get all meter readings");
-      await Axios.get(window.API_URL+"/admin/meterReadings", {
+      console.log("in analytics");
+      await Axios.get(window.API_URL+"/admin/energyStatistic", {
         headers: {
           Authorization: "Bearer " + cred,
         },
       })
         .then((response) => {
-          console.log(response.data);
+          console.log("analytics ",response.data);
           const res = response.data;
           return res;
         })
         .then((res) => {
           console.log("ressss", res);
           for (const val of res) {
-            dataSet1.push(val.eMeterReadingDay);
-            dataSet2.push(val.eMeterReadingNight);
-            dataSet3.push(val.gMeterReading);
-            labelSet.push(val.submissionDate);
+            dataSet1.push(val.data);
+            labelSet.push(val.customer)
           }
           setData({
             labels: labelSet,
             datasets: [
               {
-                label: "Electric reading day",
+                label: "average gas and electricity consumption (in kWh) ",
                 data: dataSet1,
                 borderColor: "rgb(255, 99, 132)",
-                backgroundColor: "rgba(99, 132, 0.5)",
-              },
-              {
-                label: "Electric reading night",
-                data: dataSet2,
-                borderColor: "rgb(553, 235, 0.5)",
-                backgroundColor: "rgba(53, 235, 0.5)",
-              },
-              {
-                label: "Gas reading",
-                data: dataSet3,
-                borderColor: "rgb(53, 162, 235)",
-                backgroundColor: "rgb(255, 99, 132)",
-              },
+                backgroundColor: "rgb(38,70,83)",
+              }
             ],
           });
-          console.log("arrData", dataSet1, dataSet2);
+          console.log("arrData", dataSet1);
         });
     };
 
@@ -123,7 +107,7 @@ function Analytics() {
 
   return (
     <Container id="analyticContainer" className="mt-3" >
-      <Line id="bar1" data={data} options={options} height={100}/>
+      <Bar id="bar1" data={data} options={options} height={100}/>
     </Container>
   );
 }

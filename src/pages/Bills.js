@@ -39,8 +39,10 @@ function Bills() {
 
             localStorage.clear();
             navigate("/")
+          }else{
+            alert(error.response.data);
           }
-          alert(error.response.data);
+          
         } else {
           console.log("Error", error.message);
         }

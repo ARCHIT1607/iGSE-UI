@@ -1,4 +1,8 @@
 
+#meterReadingsContainer{
+    height: 200px;
+    overflow-x: scroll;
+}
 @media only screen and (max-width: 600px) {
 
     .table{

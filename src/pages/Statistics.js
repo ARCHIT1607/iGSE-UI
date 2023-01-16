@@ -120,10 +120,12 @@ function Statistics() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
-          alert(error.response.data);
+  
           if (error.response.data === "JWT Expired") {
             localStorage.clear();
             navigate("/");
+          }else{
+          alert(error.response.data);
           }
         } else {
           console.log("Error", error.message);
@@ -199,7 +201,9 @@ function Statistics() {
             localStorage.clear();
             navigate("/")
           }
-          alert(error.response.data);
+          else{
+            alert(error.response.data);
+          }
         } else {
           console.log("Error", error.message);
         }

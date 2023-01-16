@@ -73,7 +73,9 @@ function TopUp() {
             localStorage.clear();
             navigate("/")
           }
-          alert(error.response.data);
+          else{
+            alert(error.response.data);
+          }
         } else {
           console.log("Error", error.message);
         }

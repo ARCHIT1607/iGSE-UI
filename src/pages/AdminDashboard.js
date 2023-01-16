@@ -41,8 +41,9 @@ function AdminDashboard() {
           if (error.response.data === "JWT Expired") {
             localStorage.clear();
             navigate("/")
-          }
-          alert(error.response.data);
+          }else{
+            alert(error.response.data);
+            }
         } else {
           console.log("Error", error.message);
         }
@@ -91,11 +92,13 @@ function AdminDashboard() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
-          if (error.response.data === "JWT Expired") {
+          if (error.response.data.errorMsg === "JWT Expired") {
             localStorage.clear();
             navigate("/")
           }
-          alert(error.response.data);
+          else{
+            alert(error.response.data.errorMsg);
+            }
         } else {
           console.log("Error", error.message);
         }

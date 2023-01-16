@@ -18,6 +18,7 @@ function Login() {
  
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    console.log("form ",form)
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -50,22 +51,35 @@ function Login() {
           console.log("inside error");
           console.log(error.response.data);
           console.log(error.response.status);
-          console.log(error.response.headers);
-          toast(error.response.data);
+          console.log(error.response);
+          if(error.response.data.errorType=="password_not_found"){
+            setPwdErrorMsg(error.response.data.errorMsg);
+            setPwdError("block");
+          }else if(error.response.data.errorType=="user_not_found"){
+            setEmailErrorrMsg(error.response.data.errorMsg);
+            setEmailError("block");
+          }
         } else {
           console.log("Error", error.message);
         }
       });
   };
 
-  const [pwdError, setPwdError] = useState("")
+  const [pwdError, setPwdError] = useState("none")
+  const [pwdErrorMsg, setPwdErrorMsg] = useState("")
+
+  const [emailError, setEmailError] = useState("none")
+  const [emailErrorMsg, setEmailErrorrMsg] = useState("")
+  
   const onPwdChange=(e)=>{
     if(e.target.id=="pwdInput"){
       console.log("length ",e.target.value.length)
       if(e.target.value.length==0){
-        setPwdError("password cannot be empty")
+        setPwdError("block")
+        setPwdErrorMsg("password cannot be empty")
       }else if(e.target.value.length<=6){
-        setPwdError("password must be between 6 and 10 character")
+        setPwdError("block")
+        setPwdErrorMsg("password must be between 6 and 10 character")
         console.log("pwdError",pwdError)
       }
       else{
@@ -117,9 +131,9 @@ function Login() {
             <Form.Control.Feedback
               type="invalid"
               className="text-end"
-              style={{ color: "red", fontWeight: "bold",fontSize:"1rem" }}
+              style={{ color: "red", fontWeight: "bold",fontSize:"1rem",display:emailError }}
             >
-              email format incorrect
+              {emailErrorMsg}
             </Form.Control.Feedback>
           </FloatingLabel>
           <FloatingLabel controlId="floatingPassword" label="Password">
@@ -130,7 +144,7 @@ function Login() {
               size="lg"
               id="pwdInput"
               minLength={6}
-              maxLength={10}
+              maxLength={12}
               placeholder="Password"
               style={{ width: "500px", height:"4rem"}}
               onChange={
@@ -140,9 +154,9 @@ function Login() {
             <Form.Control.Feedback
               type="invalid"
               className="text-end"
-              style={{ color: "red", fontWeight: "bold",fontSize:"1rem" }}
+              style={{ color: "red", fontWeight: "bold",fontSize:"1rem",display:pwdError }}
             >
-              {pwdError!=""?pwdError:"password cannot be empty"}
+              {pwdErrorMsg}
             </Form.Control.Feedback>
           </FloatingLabel>
           <p  className="text-end" style={{ fontSize: "1rem", color: "white" }}>

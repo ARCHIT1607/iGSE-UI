@@ -60,8 +60,18 @@ function Register() {
           console.log("inside error");
           console.log(error.response.data);
           console.log(error.response.status);
-          console.log(error.response.headers);
-          alert(error.response.data);
+          if(error.response.data.errorType=="evc_expired"){
+            setEvcErrorMsg(error.response.data.errorMsg);
+            setEvcError("block");
+          }else if(error.response.data.errorType=="evc_not_present"){
+            setEvcErrorMsg(error.response.data.errorMsg);
+            setEvcError("block");
+          }else if(error.response.data.errorType=="user_exists"){
+            setEmailErrorrMsg(error.response.data.errorMsg);
+            setEmailError("block");
+          }else{
+            alert(error.response.data.errorMsg)
+          }
         } else {
           console.log("Error", error.message);
         }
@@ -104,14 +114,24 @@ function Register() {
       setComponent();
     }
   };
-const [pwdError, setPwdError] = useState("")
+
+  const [pwdError, setPwdError] = useState("none")
+  const [pwdErrorMsg, setPwdErrorMsg] = useState("")
+
+  const [evcError, setEvcError] = useState("none")
+  const [evcErrorMsg, setEvcErrorMsg] = useState("")
+
+  const [emailError, setEmailError] = useState("none")
+  const [emailErrorMsg, setEmailErrorrMsg] = useState("")
 
   const onPwdChange=(e)=>{
     if(e.target.id=="pwdInput"){
       if(e.target.value.length==0){
-        setPwdError("password cannot be empty")
+        setPwdError("block")
+        setPwdErrorMsg("password cannot be empty")
       }else if(e.target.value.length<=6){
-        setPwdError("password must be between 6 and 10 character")
+        setPwdError("block")
+        setPwdErrorMsg("password must be between 6 and 10 character")
       }
       else{
         setPwdError("")
@@ -143,9 +163,9 @@ const [pwdError, setPwdError] = useState("")
                   onChange={(e)=>{
                     setEmail(e.target.value)}}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  email format incorrect
+                <Form.Control.Feedback type="invalid"
+                style={{ color: "red", fontWeight: "bold",fontSize:"1rem",display:emailError }}>
+                  {emailErrorMsg}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -163,9 +183,9 @@ const [pwdError, setPwdError] = useState("")
                     onPwdChange
                   }
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                {pwdError!=""?pwdError:"password cannot be empty"}
+                <Form.Control.Feedback type="invalid"
+                style={{ color: "red", fontWeight: "bold",fontSize:"1rem",display:pwdError }}>
+                {pwdErrorMsg}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -178,19 +198,19 @@ const [pwdError, setPwdError] = useState("")
                 controlId="floatingTextarea"
                 label="Address"
                 className="mb-3"
+                minLength={1}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
               >
                 <Form.Control
                   as="textarea"
-                  placeholder="Leave a comment here"
+                  placeholder="Address"
                   id="addressInput"
                   size="lg"
                   required
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
+                <Form.Control.Feedback type="invalid" style={{ color: "red", fontWeight: "bold",fontSize:"1rem",display:pwdError }}>
                 address cannot be empty
                 </Form.Control.Feedback>
               </FloatingLabel>
@@ -236,9 +256,8 @@ const [pwdError, setPwdError] = useState("")
                     setBedrooms(e.target.value);
                   }}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  invalid number
+                <Form.Control.Feedback type="invalid" style={{ color: "red", fontWeight: "bold",fontSize:"1rem",display:pwdError }}>
+                  please provide correct input
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Col>
@@ -256,6 +275,9 @@ const [pwdError, setPwdError] = useState("")
                   id="evcInput"
                   value={evc}
                 />
+                <Form.Control.Feedback type="invalid" style={{ color: "red", fontWeight: "bold",fontSize:"1rem",display:evcError }}>
+                  {evcErrorMsg}
+                </Form.Control.Feedback>
                 <Button variant="success" onClick={addComponent}>
                   Scan
                 </Button>

@@ -29,8 +29,6 @@ function UserReading() {
           
           if(error.response.data==="JWT Expired")
           {
-            alert("Session has expired!");
-            console.log("clearing jwt")
             localStorage.clear();
             navigate("/");
           }
@@ -60,11 +58,12 @@ function UserReading() {
         if (error.response) {
           console.log(error.response.data);
           if (error.response.data === "JWT Expired") {
-            alert(error.response.data);
             localStorage.clear();
             navigate("/")
           }
-          alert(error.response.data);
+          else{
+            alert(error.response.data);
+          }
         } else {
           console.log("Error", error.message);
         }
