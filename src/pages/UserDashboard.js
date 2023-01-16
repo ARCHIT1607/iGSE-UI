@@ -53,7 +53,7 @@ function UserDashboard() {
           console.log(error.response.status);
           console.log(error.response.headers);
           if (error.response.data === "JWT Expired") {
-            alert(error.response.data);
+  
             localStorage.clear();
             navigate("/")
           }
